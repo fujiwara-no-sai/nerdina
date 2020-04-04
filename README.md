@@ -65,9 +65,7 @@
   </tr>
 </table>
 
-<hr>
-
-<h2>EMPLOYEE TYPES</h2>
+<h2>Employee Types</h2>
 
 <p>Base stats. The figures for pay rate, coffee consumption and code units produced is per month.</p>
 
@@ -101,5 +99,28 @@
     <td>7,500</td>
     <td>12</td>
     <td>125</td>
+  </tr>
+</table>
+
+NOTE: Chief earns and drinks two times the base figure and doesn't produce any code.
+
+<h2>Grades</h2>
+
+<table>
+  <tr>
+    <th>GRADE</th>
+    <th>PAYRATE</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>base</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>base×1.25</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>base×1.5</td>
   </tr>
 </table>
