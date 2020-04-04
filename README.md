@@ -64,3 +64,42 @@
     <td>138.5</td>
   </tr>
 </table>
+
+<hr>
+
+<h2>EMPLOYEE TYPES</h2>
+
+<p>Base stats. The figures for pay rate, coffee consumption and code units produced is per month.</p>
+
+<table>
+  <tr>
+    <th>TYPE</th>
+    <th>PAYRATE</th>
+    <th>COFFEE</th>
+    <th>CODE UNITS</th>
+  </tr>
+  <tr>
+    <td>Manager</td>
+    <th>7,000</th>
+    <th>5</th>
+    <th>75</th>
+  </tr>
+  <tr>
+    <td>Marketer</td>
+    <th>6,600</th>
+    <th>4</th>
+    <th>5</th>
+  </tr>
+  <tr>
+    <td>Engineer</td>
+    <th>8,300</th>
+    <th>8</th>
+    <th>200</th>
+  </tr>
+  <tr>
+    <td>Ananyst</td>
+    <th>7,500</th>
+    <th>12</th>
+    <th>125</th>
+  </tr>
+</table>
