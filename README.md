@@ -124,3 +124,30 @@ NOTE: Chief earns and drinks two times the base figure and doesn't produce any c
     <td>base×1.5</td>
   </tr>
 </table>
+
+<h2>Staff</h2>
+
+<p>E.g. 6×man3 translates to 6 Managers of Grade 3</p>
+
+<table>
+  <tr>
+    <th>DEPARTMENT</th>
+    <th>STAFF</th>
+  </tr>
+  <tr>
+    <td>Analytics</td>
+    <td>9×man1, 3×man2, 2×ana3, 2×mar1 + chief 1×man2</td>
+  </tr>
+  <tr>
+    <td>Training</td>
+    <td>8×man1, 3×mar1, 2×ana1, 2×eng2 + chief 1×man2</td>
+  </tr>
+  <tr>
+    <td>Development</td>
+    <td>12×man2, 10×mar1, 8×eng2, 5×ana3 + chief 1×eng3</td>
+  </tr>
+  <tr>
+    <td>Sales</td>
+    <td>13×man1, 11×mar2, 3×mar3 + chief 1×man1</td>
+  </tr>
+</table>
