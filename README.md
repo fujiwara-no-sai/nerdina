@@ -80,26 +80,26 @@
   </tr>
   <tr>
     <td>Manager</td>
-    <th>7,000</th>
-    <th>5</th>
-    <th>75</th>
+    <td>7,000</td>
+    <td>5</td>
+    <td>75</td>
   </tr>
   <tr>
     <td>Marketer</td>
-    <th>6,600</th>
-    <th>4</th>
-    <th>5</th>
+    <td>6,600</td>
+    <td>4</td>
+    <td>5</td>
   </tr>
   <tr>
     <td>Engineer</td>
-    <th>8,300</th>
-    <th>8</th>
-    <th>200</th>
+    <td>8,300</td>
+    <td>8</td>
+    <td>200</td>
   </tr>
   <tr>
     <td>Ananyst</td>
-    <th>7,500</th>
-    <th>12</th>
-    <th>125</th>
+    <td>7,500</td>
+    <td>12</td>
+    <td>125</td>
   </tr>
 </table>
