@@ -20,8 +20,8 @@
     <td>17</td>
     <td>142,450</td>
     <td>102</td>
-    <td>1,037</td>
-    <td>137.4</td>
+    <td>1,160</td>
+    <td>122.8</td>
   </tr>
   <tr>
     <td>Training</td>
@@ -29,39 +29,39 @@
     <td>129,050</td>
     <td>102</td>
     <td>1,265</td>
-    <td>102</td>
+    <td>102.02</td>
   </tr>
   <tr>
     <td>Development</td>
     <td>36</td>
     <td>335,150</td>
-    <td>224</td>
+    <td>240</td>
     <td>3,175</td>
-    <td>105.6</td>
+    <td>105.56</td>
   </tr>
   <tr>
     <td>Sales</td>
     <td>28</td>
-    <td>218,450</td>
+    <td>225,450</td>
     <td>131</td>
     <td>1,045</td>
-    <td>209</td>
+    <td>215.74</td>
   </tr>
   <tr>
     <td>TOTAL</td>
     <td>97</td>
-    <td>825,100</td>
-    <td>559</td>
-    <td>6,522</td>
-    <td>554</td>
+    <td>832,100</td>
+    <td>575</td>
+    <td>6,645</td>
+    <td>546.12</td>
   </tr>
   <tr>
     <td>AVERAGE</td>
-    <td>24</td>
-    <td>206,275</td>
-    <td>139.75</td>
-    <td>1,630.5</td>
-    <td>138.5</td>
+    <td>24.25</td>
+    <td>208,025</td>
+    <td>143.75</td>
+    <td>1,661.25</td>
+    <td>136.53</td>
   </tr>
 </table>
 
