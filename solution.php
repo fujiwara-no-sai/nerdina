@@ -2,79 +2,49 @@
 
 /**
  * input.php
- * the input format is determined by me based on the given data.
- * I've been told by the peers that the current one is way too complicated and 
- * the array should look like this:
- * $input = [
- *          ['Analytics', 9, Employee::MANAGER, 1],
- *          ['Training', 8, Employee::MANAGER, 1],
- *          ...
- *          ];
- * Please advise on this point
  */
 
 $input = [
 	'Analytics' => [
-		[9, Employee::MANAGER, 1],
-		[3, Employee::MANAGER, 2],
-		[2, Employee::ANALYST, 3],
-		[2, Employee::MARKETER, 1],
-		[1, Employee::MANAGER, 2, true]
+		[9, Manager::class, 1, false],
+		[3, Manager::class, 2, false],
+		[2, Analyst::class, 3, false],
+		[2, Marketer::class, 1, false],
+		[1, Manager::class, 2, true]
 	],
 
 	'Training' => [
-		[8, Employee::MANAGER, 1],
-		[3, Employee::MARKETER, 1],
-		[2, Employee::ANALYST, 1],
-		[2, Employee::ENGINEER, 2],
-		[1, Employee::MANAGER, 2, true]
+		[8, Manager::class, 1, false],
+		[3, Marketer::class, 1, false],
+		[2, Analyst::class, 1, false],
+		[2, Engineer::class, 2, false],
+		[1, Manager::class, 2, true]
 	],
 
 
 	'Development' => [
-		[12, Employee::MANAGER, 2],
-		[10, Employee::MARKETER, 1],
-		[8, Employee::ENGINEER, 2],
-		[5, Employee::ANALYST, 3],
-		[1, Employee::ENGINEER, 3, true]
+		[12, Manager::class, 2, false],
+		[10, Marketer::class, 1, false],
+		[8, Engineer::class, 2, false],
+		[5, Analyst::class, 3, false],
+		[1, Engineer::class, 3, true]
 	],
 
 
 	'Sales' => [
-		[13, Employee::MANAGER, 1],
-		[11, Employee::MARKETER, 2],
-		[3, Employee::MARKETER, 3],
-		[1, Employee::MANAGER, 1, true]
+		[13, Manager::class, 1, false],
+		[11, Marketer::class, 2, false],
+		[3, Marketer::class, 3, false],
+		[1, Manager::class, 1, true]
 	]
 
 ];
-
-/**
- * padstring.php
- * a function facilitating the report output later on
- */
-
-function padString($string, $length, $side = "right", $pad = " ") {
-	if (strlen($string) == $length) {
-		return $string;
-	} else {
-		$charsNeeded = $length - strlen($string); // 5
-		$padding = str_repeat($pad, $charsNeeded);
-		($side == "right") ? ($string = $string . $padding) : ($string = $padding . $string);
-		return $string;
-	}
-}
 
 /**
  * classes.php
  */
 
 abstract class Employee {
-	const MANAGER = "Manager";
-	const MARKETER = "Marketer";
-	const ENGINEER = "Engineer";
-	const ANALYST = "Analyst";
-
 	protected int $grade;
 	protected bool $chief;
 
@@ -92,13 +62,13 @@ abstract class Employee {
 	abstract public function getBaseCodeProduced();
 
 	public function getActualPay(): float {
-		$rate = $this->getBaseRate();
-		if ($this->grade == 2) {
-			$rate *= 1.25;
-		} elseif ($this->grade == 3) {
-			$rate = $rate * 1.5;
-		}
+		$multiplier = [
+			1 => 1,
+			2 => 1.25,
+			3 => 1.5
+		];
 
+		$rate = $this->getBaseRate() * $multiplier[$this->grade];
 		return $this->chief ? $rate * 2 : $rate;
 	}
 
@@ -186,140 +156,131 @@ class Analyst extends Employee {
 class Department {
 	protected string $name;
 	protected array $staff;
-
+	
 	public function __construct($name) {
 		$this->name = $name;
 	}
-
+	
 	public function getName() {
 		return $this->name;
 	}
-
+	
 	public function addToStaff(Employee $employee) {
 		$this->staff[] = $employee;
 	}
 
-	public function getStaffNumber() {
-		return count($this->staff);
-	}
-
-	public function getLaborCost() {
-		$laborCost = 0;
-		foreach ($this->staff as $employee) {
-			$laborCost += $employee->getActualPay();
+	/**
+	 * $methodName = 'getActualPay' to get Total Labor Cost in Department
+	 * $methodName = 'getActualCoffeeConsumption' to get Total Coffee Consumption in Department
+	 * $methodName = 'getActualCodeProduced' to get Total Code Produced in Department
+	 * $methodName = 'getStaffNumber' to get Total Stuff Number in Department
+	 * $methodName = 'getCostPerUnit' to get Total Cost Per Code Unit in Department
+	 */
+	public function getData(string $methodName) {
+		if ($methodName == 'getStaffNumber') {
+			return count($this->staff);
+		} elseif ($methodName == 'getCostPerUnit') {
+			return round($this->getData('getActualPay') / $this->getData('getActualCodeProduced'), 2);
 		}
-		return $laborCost;
-	}
 
-	public function getCoffeeConsumption() {
-		$coffee = 0;
+		$data = 0;
 		foreach ($this->staff as $employee) {
-			$coffee += $employee->getActualCoffeeConsumption();
+			$data += $employee->$methodName();
 		}
-		return $coffee;
+		return $data;
 	}
-
-	public function getCodeProduced() {
-		$code = 0;
-		foreach ($this->staff as $employee) {
-			$code += $employee->getActualCodeProduced();
-		}
-		return $code;
-	}
-
-	public function getCostPerUnit() {
-		return round($this->getLaborCost() / $this->getCodeProduced(), 2);
-	}
-	
 }
 
 class Company {
 	protected array $depts;
 
-	public function __construct(array $depts) {
-		$this->depts = $depts;
+	public function addDept(Department $dept) {
+		$this->depts[] = $dept;
 	}
-
+	
 	public function getDepts() {
 		return $this->depts;
 	}
 
-	public function getTotalStaffNumber() {
-		$staffNumber = 0;
-		foreach ($this->depts as $dept) {
-			$staffNumber += $dept->getStaffNumber();
-		}
-		return $staffNumber;
-	}
-
-	public function getTotalLaborCost() {
-		$laborCost = 0;
-		foreach ($this->depts as $dept) {
-			$laborCost += $dept->getLaborCost();
-		}
-		return $laborCost;
-	}
-
-	public function getTotalCoffeeConsumption() {
-		$coffee = 0;
-		foreach ($this->depts as $dept) {
-			$coffee += $dept->getCoffeeConsumption();
-		}
-		return $coffee;
-	}
-
-	public function getTotalCodeProduced() {
-		$code = 0;
-		foreach ($this->depts as $dept) {
-			$code += $dept->getCodeProduced();
-		}
-		return $code;
-	}
-
-	public function getTotalCostPerUnit() {
-		$cost = 0;
-		foreach ($this->depts as $dept) {
-			$cost += $dept->getCostPerUnit();
-		}
-		return $cost;
-	}
-
-	public function getAverageStaffNumber() {
-		return round($this->getTotalStaffNumber() / count($this->depts), 2);
-	}
-
-	public function getAverageLaborCost() {
-		return round($this->getTotalLaborCost() / count($this->depts), 2);
-	}
-
-	public function getAverageCoffeeConsumption() {
-		return round($this->getTotalCoffeeConsumption() / count($this->depts), 2);
-	}
-
-	public function getAverageCodeProduced() {
-		return round($this->getTotalCodeProduced() / count($this->depts), 2);
-	}
-
-	public function getAverageCostPerUnit() {
-		return round($this->getTotalCostPerUnit() / count($this->depts), 2);
-	}
-
 	/**
-	 * should I use echo or is it better to put the entire report string in a variable
-	 * and return it?
+	 * $methodName = 'getStaffNumber' to get Total Staff Number in Company
+	 * $methodName = 'getActualPay' to get Total Labor Cost in Company
+	 * $methodName = 'getActualCoffeeConsumption' to get Total Coffee Consumption in Company
+	 * $methodName = 'getActualCodeProduced' to get Total Code Produced in Company
+	 * $methodName = 'getCostPerUnit' to get Total Cost Per Code Unit in Company
 	 */
+	public function getTotalData(string $methodName) {
+		$data = 0;
+		foreach ($this->depts as $dept) {
+			$data += $dept->getData($methodName);
+		}
+		return $data;
+	}
+	
+	/**
+	 * $methodName = 'getStaffNumber' to get Average Staff Number for Departments of Company
+	 * $methodName = 'getActualPay' to get Average Labor Cost for Departments of Company
+	 * $methodName = 'getActualCoffeeConsumption' to get Average Coffee Consumption for Departments of Company
+	 * $methodName = 'getActualCodeProduced' to get Average Code Units Produced by Departments of Company
+	 * $methodName = 'getCostPerUnit' to get Average Cost Per Code Unit for Departments of Company
+	 */
+	public function getAverageData(string $methodName) {
+		return round($this->getTotalData($methodName) / count($this->depts), 2);
+	}
+
 	public function printReport() {
 		$regcol = 15;
 		$widecol = 20;
+		
+		echo str_pad('DEPARTMENT', $widecol) .
+			str_pad('STAFF', $regcol, ' ', STR_PAD_LEFT) .
+			str_pad('LABOR COST', $regcol, ' ', STR_PAD_LEFT) .
+			str_pad('COFFEE DRUNK', $regcol, ' ', STR_PAD_LEFT) .
+			str_pad('CODE UNITS', $regcol, ' ', STR_PAD_LEFT) .
+			str_pad('COST PER UNIT', $regcol, ' ', STR_PAD_LEFT) .
+			"\n";
 
-		echo padString('DEPARTMENT', $widecol) . padString('STAFF', $regcol, 'left') . padString('LABOR COST', $regcol, 'left') . padString('COFFEE DRUNK', $regcol, 'left') . padString('CODE UNITS', $regcol, 'left') . padString('COST PER UNIT', $regcol, 'left') . "\n";
-		echo padString('=', $widecol, 'right', '=') . padString('=', $regcol, 'right', '=') . padString('=', $regcol, 'right', '=') . padString('=', $regcol, 'right', '=') . padString('=', $regcol, 'right', '=') . padString('=', $regcol, 'right', '=') . "\n";
+		echo str_pad('=', $widecol, '=', STR_PAD_RIGHT) .
+			str_pad('=', $regcol, '=', STR_PAD_RIGHT) .
+			str_pad('=', $regcol, '=', STR_PAD_RIGHT) .
+			str_pad('=', $regcol, '=', STR_PAD_RIGHT) .
+			str_pad('=', $regcol, '=', STR_PAD_RIGHT) .
+			str_pad('=', $regcol, '=', STR_PAD_RIGHT) .
+			"\n";
+
 		foreach ($this->depts as $dept) {
-			echo padString($dept->getName(), $widecol) . padString($dept->getStaffNumber(), $regcol, 'left') . padString($dept->getLaborCost(), $regcol, 'left') . padString($dept->getCoffeeConsumption(), $regcol, 'left') . padString($dept->getCodeProduced(), $regcol, 'left') . padString($dept->getCostPerUnit(), $regcol, 'left') . "\n";
+			echo str_pad($dept->getName(), $widecol) .
+			       	str_pad($dept->getData('getStaffNumber'), $regcol, ' ', STR_PAD_LEFT) .
+				str_pad($dept->getData('getActualPay'), $regcol, ' ', STR_PAD_LEFT) .
+				str_pad($dept->getData('getActualCoffeeConsumption'), $regcol, ' ', STR_PAD_LEFT) .
+				str_pad($dept->getData('getActualCodeProduced'), $regcol, ' ', STR_PAD_LEFT) .
+				str_pad($dept->getData('getCostPerUnit'), $regcol, ' ', STR_PAD_LEFT) .
+				"\n";
 		}
-		echo padString('=', $widecol, 'right', '=') . padString('=', $regcol, 'right', '=') . padString('=', $regcol, 'right', '=') . padString('=', $regcol, 'right', '=') . padString('=', $regcol, 'right', '=') . padString('=', $regcol, 'right', '=') . "\n";
-		echo padString('TOTAL', $widecol) . padString($this->getTotalStaffNumber(), $regcol, 'left') . padString($this->getTotalLaborCost(), $regcol, 'left') . padString($this->getTotalCoffeeConsumption(), $regcol, 'left') . padString($this->getTotalCodeProduced(), $regcol, 'left') . padString($this->getTotalCostPerUnit(), $regcol, 'left') . "\n";
-		echo padString('AVERAGE', $widecol) . padString($this->getAverageStaffNumber(), $regcol, 'left') . padString($this->getAverageLaborCost(), $regcol, 'left') . padString($this->getAverageCoffeeConsumption(), $regcol, 'left') . padString($this->getAverageCodeProduced(), $regcol, 'left') . padString($this->getAverageCostPerUnit(), $regcol, 'left') . "\n";
+
+		echo str_pad('=', $widecol, '=', STR_PAD_RIGHT) .
+			str_pad('=', $regcol, '=', STR_PAD_RIGHT) .
+			str_pad('=', $regcol, '=', STR_PAD_RIGHT) .
+			str_pad('=', $regcol, '=', STR_PAD_RIGHT) .
+			str_pad('=', $regcol, '=', STR_PAD_RIGHT) .
+			str_pad('=', $regcol, '=', STR_PAD_RIGHT) .
+			"\n";
+
+		echo str_pad('TOTAL', $widecol) .
+			str_pad($this->getTotalData('getStaffNumber'), $regcol, ' ', STR_PAD_LEFT) .
+			str_pad($this->getTotalData('getActualPay'), $regcol, ' ', STR_PAD_LEFT) .
+			str_pad($this->getTotalData('getActualCoffeeConsumption'), $regcol, ' ', STR_PAD_LEFT) .
+			str_pad($this->getTotalData('getActualCodeProduced'), $regcol, ' ', STR_PAD_LEFT) .
+			str_pad($this->getTotalData('getCostPerUnit'), $regcol, ' ', STR_PAD_LEFT) .
+			"\n";
+	
+		echo str_pad('AVERAGE', $widecol) .
+			str_pad($this->getAverageData('getStaffNumber'), $regcol, ' ', STR_PAD_LEFT) .
+			str_pad($this->getAverageData('getActualPay'), $regcol, ' ', STR_PAD_LEFT) .
+			str_pad($this->getAverageData('getActualCoffeeConsumption'), $regcol, ' ', STR_PAD_LEFT) .
+			str_pad($this->getAverageData('getActualCodeProduced'), $regcol, ' ', STR_PAD_LEFT) .
+			str_pad($this->getAverageData('getCostPerUnit'), $regcol, ' ', STR_PAD_LEFT) .
+			"\n";
 	}
 }
 
@@ -331,11 +292,7 @@ function makeDepts(array $input): array {
 	$depts = [];
 	foreach ($input as $dept => $staff) {
 		$currentDept = new Department($dept);
-		foreach ($staff as $employeeGroup) {
-			$quantity = $employeeGroup[0];
-			$type = $employeeGroup[1];
-			$grade = $employeeGroup[2];
-			$chief = isset($employeeGroup[3]) ? true : false;
+		foreach ($staff as [$quantity, $type, $grade, $chief]) {
 			for ($c = 0; $c < $quantity; $c++) {
 				$employeeObject = new $type($grade, $chief);
 				$currentDept->addToStaff($employeeObject);
@@ -347,6 +304,10 @@ function makeDepts(array $input): array {
 }
 
 $depts = makeDepts($input);
-$company = new Company($depts);
+
+$company = new Company();
+foreach ($depts as $dept) {
+	$company->addDept($dept);
+}
 
 $company->printReport();
