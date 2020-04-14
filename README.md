@@ -151,3 +151,17 @@ NOTE: Chief earns and drinks two times the base figure and doesn't produce any c
     <td>13×man1, 11×mar2, 3×mar3 + chief 1×man1</td>
   </tr>
 </table>
+
+<h1>Three Plans to Optimize the Production Costs</h1>
+
+<h2>Plan A</h2>
+
+<p>Lay off 40% of engineers in each department. Those of lower grades are the first to go. If the head of a department is an engineer, they are to retain their position. So basically heads of the departments are to stay on staff.</p>
+
+<h2>Plan B</h2>
+
+<p>Increase the base pay rate of the analysts up to $7,600 as well as their base coffee consumption to 14 gallons. If a department isn't led by an analyst, demote them and promote an analyst of the highest grade within this department to this position.</p>
+
+<h2>Plan C</h2>
+
+<p>50% of the managers of Grade 1 and 2 within each department are to be promoted up one grade to broaden the scope of their duties.</p>
