@@ -62,6 +62,7 @@ abstract class Employee {
 	abstract public function getBaseCodeProduced();
 
 	public function getActualPay(): float {
+		// grade-based look-up array:
 		$multiplier = [
 			1 => 1,
 			2 => 1.25,
