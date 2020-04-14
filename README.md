@@ -160,7 +160,7 @@ NOTE: Chief earns and drinks two times the base figure and doesn't produce any c
 
 <h2>Plan B</h2>
 
-<p>Increase the base pay rate of the analysts up to $7,600 as well as their base coffee consumption to 14 gallons. If a department isn't led by an analyst, demote them and promote an analyst of the highest grade within this department to this position.</p>
+<p>Increase the base pay rate of the analysts up to $7,600 as well as their base coffee consumption to 14 gallons. Unless a department is led by an analyst, demote them and promote an analyst of the highest grade within this department to this position.</p>
 
 <h2>Plan C</h2>
 
